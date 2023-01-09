@@ -57,6 +57,9 @@ public abstract class TextInputScreen<T> extends CloseableScreen {
     protected void init() {
         final ButtonWidget doneButton = this.addDrawableChild(Ukutils.doneButton(this.width, this.height, this.parent));
         textField = this.addDrawableChild(new TextFieldWidget(this.textRenderer, this.width / 2 - 100, 116, 200, 20, label));
+        textField.setMaxLength(1000); // Set the maximum number of characters to 1000
+        textField.setHasSelection(true); // Enable text selection
+        textField.setHasBorder(true); // Add a scrollbar to the text field
         textField.setText(format(last));
         textField.setChangedListener(s -> {
             doneButton.active = convert(s).isPresent();
