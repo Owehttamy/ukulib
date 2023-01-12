@@ -1,18 +1,20 @@
 package net.uku3lig.ukulib.config.serialization;
 
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.uku3lig.ukulib.config.IConfig;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.function.Supplier;
 
 /**
- * A default config serializer, which saves the config in a TOML file.
+ * A default config serializer, which saves the config in a JSON file.
  * @param <T> The type of the config
  */
 @Slf4j
@@ -53,7 +55,7 @@ public class DefaultConfigSerializer<T extends IConfig<T>> implements ConfigSeri
         }
 
         try {
-            T config = new Toml().read(file).to(configClass);
+            T config = new Gson().fromJson(new FileReader(file), configClass);
             if (hasNullFields(config)) throw new NullPointerException("null fields were found");
             return config;
         } catch (Exception e) {
@@ -65,7 +67,7 @@ public class DefaultConfigSerializer<T extends IConfig<T>> implements ConfigSeri
 
     public void serialize(T config) {
         try {
-            new TomlWriter().write(config, file);
+            new Gson().toJson(config, new FileWriter(file));
         } catch (IOException e) {
             log.warn("Could not write config", e);
         }
