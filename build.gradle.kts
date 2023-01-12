@@ -41,7 +41,7 @@ dependencies {
     mappings("net.fabricmc:yarn:$yarnMappings:v2")
     modImplementation("net.fabricmc:fabric-loader:$loaderVersion")
 
-    include(implementation("com.moandjiezana.toml:toml4j:$toml4jVersion")!!)
+    include(implementation("com.google.code.gson:gson:2.10.1")!!)
     include(implementation("gs.mclo.java:mclogs-java:2.1.1")!!)
 
     include(modImplementation(fabricApi.module("fabric-resource-loader-v0", fabricVersion))!!)
